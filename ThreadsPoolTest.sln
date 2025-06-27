@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadsPoolTest.DotnetControl", "ThreadsPoolTest.DotnetControl\ThreadsPoolTest.DotnetControl.csproj", "{519EF248-F555-46D5-BAAA-C42D9C69BE07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadsPoolTest.SetMinThreadsPool", "ThreadsPoolTest.SetMinThreadsPool\ThreadsPoolTest.SetMinThreadsPool.csproj", "{EE0B1525-5044-4BC6-9481-2FE78B496CE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K6-Tests", "K6-Tests", "{80482509-BD98-4118-A552-4EF4E6DDB394}"
+	ProjectSection(SolutionItems) = preProject
+		K6-Tests\file-upload-test.js = K6-Tests\file-upload-test.js
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{519EF248-F555-46D5-BAAA-C42D9C69BE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{519EF248-F555-46D5-BAAA-C42D9C69BE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{519EF248-F555-46D5-BAAA-C42D9C69BE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{519EF248-F555-46D5-BAAA-C42D9C69BE07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE0B1525-5044-4BC6-9481-2FE78B496CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0B1525-5044-4BC6-9481-2FE78B496CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0B1525-5044-4BC6-9481-2FE78B496CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0B1525-5044-4BC6-9481-2FE78B496CE5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

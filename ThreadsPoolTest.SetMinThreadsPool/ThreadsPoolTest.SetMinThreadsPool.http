@@ -1,0 +1,6 @@
+@ThreadsPoolTest.SetMinThreadsPool_HostAddress = http://localhost:5101
+
+GET {{ThreadsPoolTest.SetMinThreadsPool_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

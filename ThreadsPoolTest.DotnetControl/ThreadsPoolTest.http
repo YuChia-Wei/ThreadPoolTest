@@ -1,0 +1,6 @@
+@ThreadsPoolTest_HostAddress = http://localhost:5036
+
+GET {{ThreadsPoolTest_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
