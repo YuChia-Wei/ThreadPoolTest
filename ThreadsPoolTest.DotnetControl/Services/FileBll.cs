@@ -1,7 +1,9 @@
+using ThreadsPoolTest.CrossCutting.Observability.Tracing;
 using ThreadsPoolTest.DotnetControl.Models;
 
 namespace ThreadsPoolTest.DotnetControl.Services;
 
+[TracingMethod]
 public class FileBll
 {
     private readonly IFileService _fileService;

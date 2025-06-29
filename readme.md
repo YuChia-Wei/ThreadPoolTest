@@ -87,3 +87,9 @@ docker run --rm --cap-add NET_ADMIN \
   grafana/k6
 
 ```
+
+# Observability
+
+> ThreadsPoolTest.CrossCutting.Observability
+
+此專案為 AOP 元件，提供 `System.Diagnostics.ActivitySource` 資源，讓專案擁有直接提供觀測資料的能力。

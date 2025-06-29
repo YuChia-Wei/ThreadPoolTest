@@ -1,7 +1,9 @@
+using ThreadsPoolTest.CrossCutting.Observability.Tracing;
 using ThreadsPoolTest.SetMinThreadsPool.Models;
 
 namespace ThreadsPoolTest.SetMinThreadsPool.Services;
 
+[TracingMethod]
 public class FileBll
 {
     private readonly IFileService _fileService;

@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K6-Tests", "K6-Tests", "{80
 		K6-Tests\file-upload-test.js = K6-Tests\file-upload-test.js
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadsPoolTest.CrossCutting.Observability", "ThreadsPoolTest.CrossCutting.Observability\ThreadsPoolTest.CrossCutting.Observability.csproj", "{2FBB66A9-27D2-4338-97AF-70BD499EC0D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,5 +25,9 @@ Global
 		{EE0B1525-5044-4BC6-9481-2FE78B496CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE0B1525-5044-4BC6-9481-2FE78B496CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE0B1525-5044-4BC6-9481-2FE78B496CE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FBB66A9-27D2-4338-97AF-70BD499EC0D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBB66A9-27D2-4338-97AF-70BD499EC0D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBB66A9-27D2-4338-97AF-70BD499EC0D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBB66A9-27D2-4338-97AF-70BD499EC0D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
