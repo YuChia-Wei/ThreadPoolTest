@@ -162,9 +162,12 @@ cd K6-Tests
     ```shell
     docker run --rm -i -v .\:/scripts -w /scripts grafana/k6 run file-upload-test.js
     ```
-!!!網路限制的部分待測!!!
 
 ## 執行測試語法 - 包含網路限制
+
+:::warning
+**網路限制的部分目前看來並無作用**
+:::
 
 **語法重點說明: 利用 `--cap-add NET_ADMIN` 參數來讓 container 內可以用 tc 來進行網路設定**
 
@@ -178,17 +181,16 @@ docker run --rm \
         k6 run file-upload-test.js'
 ```
 
-## 執行測試語法 - 彙整網路控制以及 k6 執行命令到 entrypoint 檔案
+## 執行測試語法 - 彙整執行命令 entrypoint 檔案
 
 **目前 repo 中預存的 entrypoint-\* 語法中使用的 api endpoint 是使用 docker-compose 執行的 api**
+
+### 直接執行無網路控制
 
 - sh file
     ```sh
     #!/bin/sh
-    # 1) 設定頻寬
-    tc qdisc add dev eth0 root tbf rate 256kbit burst 32kbit latency 400ms
-
-    # 2) 執行 k6
+    # 執行 k6
     # k6 run /scripts/file-upload-test.js
     k6 run -e TESTING_API=http://host.docker.internal:5036/upload/fromform /K6-Tests/file-upload-test.js
     ```
@@ -209,6 +211,41 @@ docker run --rm \
     ```shell
     docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-preset-thread-pool.sh grafana/k6
     docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-runtime-set-thread-pool.sh grafana/k6
+    ```
+
+### 含網路控制
+
+:::warning
+**網路限制的部分目前看來並無作用**
+:::
+
+- sh file
+    ```sh
+    #!/bin/sh
+    # 1) 設定頻寬
+    tc qdisc add dev eth0 root tbf rate 256kbit burst 32kbit latency 400ms
+
+    # 2) 執行 k6
+    # k6 run /scripts/file-upload-test.js
+    k6 run -e TESTING_API=http://host.docker.internal:5036/upload/fromform /K6-Tests/file-upload-test.js
+    ```
+- docker run command
+    ```shell
+    docker run --rm --cap-add NET_ADMIN \
+      -v $PWD:/scripts \
+      -w /scripts \
+      --entrypoint /scripts/entrypoint-preset-thread-pool-has-tc.sh \
+      grafana/k6
+    docker run --rm --cap-add NET_ADMIN \
+      -v $PWD:/scripts \
+      -w /scripts \
+      --entrypoint /scripts/entrypoint-runtime-set-thread-pool-has-tc.sh \
+      grafana/k6
+    ```
+- for windows
+    ```shell
+    docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-preset-thread-pool-has-tc.sh grafana/k6
+    docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-runtime-set-thread-pool-has-tc.sh grafana/k6
     ```
 
 # Observability
