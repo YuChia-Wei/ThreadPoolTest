@@ -257,3 +257,8 @@ docker run --rm \
 > ThreadsPoolTest.CrossCutting.Observability
 
 此專案為 AOP 元件，提供 `System.Diagnostics.ActivitySource` 資源，讓專案擁有直接提供觀測資料的能力。
+
+# 參考資料
+
+https://ithelp.ithome.com.tw/m/articles/10196584
+https://learn.microsoft.com/zh-tw/aspnet/core/mvc/models/file-uploads?view=aspnetcore-9.0
