@@ -9,7 +9,7 @@ using ThreadsPoolTest.UseCases.Files;
 using ThreadsPoolTest.UseCases.Files.Services;
 
 ThreadPool.GetMinThreads(out var workerThreads, out var completionPortThreads);
-ThreadPool.SetMinThreads(128, 128);
+ThreadPool.SetMinThreads(256, 256);
 
 var builder = WebApplication.CreateBuilder(args);
 
