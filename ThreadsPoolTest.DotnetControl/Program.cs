@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 using ThreadsPoolTest.CrossCutting.Observability.Metrics;
 using ThreadsPoolTest.DotnetControl.Models;
 using ThreadsPoolTest.DotnetControl.Services;
@@ -14,6 +16,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddOpenTelemetry()
+       .WithLogging(loggerProviderBuilder =>
+       {
+           loggerProviderBuilder.AddOtlpExporter();
+       })
+       .WithTracing(tracerProviderBuilder =>
+       {
+           tracerProviderBuilder
+               .AddSource(ApplicationMeter.Meter.Name)
+               // .AddHttpClientInstrumentation()
+               .AddAspNetCoreInstrumentation()
+               // .AddEntityFrameworkCoreInstrumentation()
+               .AddOtlpExporter();
+       })
        .WithMetrics(meterProviderBuilder =>
        {
            meterProviderBuilder
