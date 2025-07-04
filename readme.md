@@ -27,6 +27,8 @@
 
 請**嚴格分開**執行對照組與實驗組的測試，切勿同時啟動兩個 API 專案。
 
+**測試腳本有做防呆機制，沒有給到 --env 的話，會使用 `http://host.docker.internal:5036/upload/fromform` 這個網址進行測試**
+
 ### A. 測試對照組 (DotnetControl)
 
 1.  **啟動 API**:
@@ -43,7 +45,7 @@
     ```shell
     cd K6-Tests
     # 注意: k6 腳本中的 URL (http://host.docker.internal:5036/upload/fromform) 可能需要根據你執行的 API port 進行調整
-    docker run --rm -v $PWD:/scripts -w /scripts grafana/k6 run file-upload-test.js
+    docker run --rm -v $PWD:/scripts -w /scripts grafana/k6 run -e TESTING_API=http://host.docker.internal:5036/upload/fromform file-upload-test.js
     ```
 5.  **結束測試**: k6 執行完畢後，停止 `dotnet-counters` 與 `dotnet run`。
 
@@ -54,7 +56,17 @@
     cd ThreadsPoolTest.SetMinThreadsPool
     dotnet run
     ```
-2.  **重複步驟 A.2 ~ A.5**: 取得新的 PID，將監控數據儲存到不同的檔案 (例如 `experiment-metrics.csv`)，並執行完全相同的 k6 測試。
+2.  **取得 Process ID**: 開啟新的終端機，使用 `dotnet-counters ps` 找到 `ThreadsPoolTest.SetMinThreadsPool` 的程序 ID (PID)。
+3.  **啟動效能監控**:
+    ```shell
+    dotnet-counters monitor --process-id <PID> -o experiment-metrics.csv --counters System.Runtime,Microsoft.AspNetCore.Hosting
+    ```
+4.  **執行負載測試**: 開啟第三個終端機，進入 `K6-Tests` 資料夾，執行 k6 腳本。
+    ```shell
+    cd K6-Tests
+    docker run --rm -v $PWD:/scripts -w /scripts grafana/k6 run -e TESTING_API=http://host.docker.internal:5036/upload/fromform file-upload-test.js
+    ```
+5.  **結束測試**: k6 執行完畢後，停止 `dotnet-counters` 與 `dotnet run`。
 
 ## 如何分析與驗證結果
 
@@ -83,6 +95,7 @@
   - **k6**: `http_req_duration` 從測試開始就應維持在一個相對較低且穩定的水準。
   - **dotnet-counters**: `thread-pool-thread-count` 從一開始就應維持在 128 或更高的水準。`thread-pool-queue-length` 應始終保持在非常低的值 (接近 0)。
 
+----
 
 # test file generate
 
@@ -115,35 +128,46 @@ dotnet-counters monitor --process-id <pid> \
 
 # k6 test command
 
-```shell
-cd K6-Tests                       # 回到存有 upload.js 的資料夾
-```
+**測試腳本有做防呆機制，沒有給到 --env 的話，會使用 `http://host.docker.internal:5036/upload/fromform` 這個網址進行測試**
 
-> 這個版本沒有掛到測試檔案，只是備份參考而已
-```shell
-docker run --rm -i grafana/k6 run - < file-upload-test.js
-```
+需要先進入存放 k6 測試腳本與檔案的資料夾
 
 ```shell
-docker run --rm -i \
-  -v $PWD:/scripts \                 # 把目前資料夾掛到 /scripts
-  -w /scripts \                      # 工作目錄設 /scripts
-  --network host \                   # Linux 建議；Win/macOS 可以省略
-  grafana/k6 run file-upload-test.js
+cd K6-Tests
 ```
 
-> 實際測試時使用
-```shell
-docker run --rm -i \
-  -v $PWD:/scripts \
-  -w /scripts \
-  grafana/k6 run file-upload-test.js
-```
+## 執行測試語法 - 直接測試
 
+- 備份用範例語法
+    > 這個版本沒有掛到測試檔案，只是備份參考而已
+    ```shell
+    docker run --rm -i grafana/k6 run - < file-upload-test.js
+    ```
+- linux 上的測試語法
+    ```shell
+    docker run --rm -i \
+      -v $PWD:/scripts \                 # 把目前資料夾掛到 /scripts
+      -w /scripts \                      # 工作目錄設 /scripts
+      --network host \                   # Linux 建議；Win/macOS 可以省略
+      grafana/k6 run file-upload-test.js
+    ```
+- mac 上的測試語法
+    ```shell
+    docker run --rm -i \
+      -v $PWD:/scripts \
+      -w /scripts \
+      grafana/k6 run file-upload-test.js
+    ```
+- windows 上的測試語法
+    ```shell
+    docker run --rm -i -v .\:/scripts -w /scripts grafana/k6 run file-upload-test.js
+    ```
 !!!網路限制的部分待測!!!
 
-> 包含網路限制
-> 利用 `--cap-add NET_ADMIN` 參數來讓 container 內可以用 tc
+## 執行測試語法 - 包含網路限制
+
+**語法重點說明: 利用 `--cap-add NET_ADMIN` 參數來讓 container 內可以用 tc 來進行網路設定**
+
 ```shell
 docker run --rm \
   --cap-add NET_ADMIN \
@@ -154,30 +178,38 @@ docker run --rm \
         k6 run file-upload-test.js'
 ```
 
-> 包含網路限制，網路限制寫在 entrypoint.sh 中
-sh file
-```sh
-#!/bin/sh
-# 1) 設定頻寬
-tc qdisc add dev eth0 root tbf rate 256kbit burst 32kbit latency 400ms
+## 執行測試語法 - 彙整網路控制以及 k6 執行命令到 entrypoint 檔案
 
-# 2) 執行 k6
-k6 run /scripts/file-upload-test.js
-```
+**目前 repo 中預存的 entrypoint-\* 語法中使用的 api endpoint 是使用 docker-compose 執行的 api**
 
-```shell
-docker run --rm --cap-add NET_ADMIN \
-  -v $PWD:/scripts \
-  -w /scripts \
-  --entrypoint /scripts/entrypoint.sh \
-  grafana/k6
+- sh file
+    ```sh
+    #!/bin/sh
+    # 1) 設定頻寬
+    tc qdisc add dev eth0 root tbf rate 256kbit burst 32kbit latency 400ms
 
-```
-
-for windows
-```shell
-docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint.sh grafana/k6
-```
+    # 2) 執行 k6
+    # k6 run /scripts/file-upload-test.js
+    k6 run -e TESTING_API=http://host.docker.internal:5036/upload/fromform /K6-Tests/file-upload-test.js
+    ```
+- docker run command
+    ```shell
+    docker run --rm --cap-add NET_ADMIN \
+      -v $PWD:/scripts \
+      -w /scripts \
+      --entrypoint /scripts/entrypoint-preset-thread-pool.sh \
+      grafana/k6
+    docker run --rm --cap-add NET_ADMIN \
+      -v $PWD:/scripts \
+      -w /scripts \
+      --entrypoint /scripts/entrypoint-runtime-set-thread-pool.sh \
+      grafana/k6
+    ```
+- for windows
+    ```shell
+    docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-preset-thread-pool.sh grafana/k6
+    docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-runtime-set-thread-pool.sh grafana/k6
+    ```
 
 # Observability
 
