@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using ThreadsPoolTest.DotnetControl.Models;
-using ThreadsPoolTest.DotnetControl.Services;
+using ThreadsPoolTest.SetMinThreadsPool.Services;
+using ThreadsPoolTest.UseCases.Files;
+using FileBll = ThreadsPoolTest.DotnetControl.Services.FileBll;
+using FileService = ThreadsPoolTest.UseCases.Files.Services.FileService;
 
 var builder = WebApplication.CreateBuilder(args);
 

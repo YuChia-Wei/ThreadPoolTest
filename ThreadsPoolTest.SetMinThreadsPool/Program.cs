@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ThreadsPoolTest.SetMinThreadsPool.Models;
 using ThreadsPoolTest.SetMinThreadsPool.Services;
+using ThreadsPoolTest.UseCases.Files;
+using ThreadsPoolTest.UseCases.Files.Services;
 
 ThreadPool.GetMinThreads(out var workerThreads, out var completionPortThreads);
 ThreadPool.SetMinThreads(128, 128);

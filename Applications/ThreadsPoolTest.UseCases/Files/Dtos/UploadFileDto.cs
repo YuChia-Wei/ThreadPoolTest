@@ -1,4 +1,4 @@
-namespace ThreadsPoolTest.DotnetControl.Models;
+namespace ThreadsPoolTest.UseCases.Files.Dtos;
 
 public class UploadFileDto
 {

@@ -1,7 +1,8 @@
+using Microsoft.Extensions.Logging;
 using ThreadsPoolTest.CrossCutting.Observability.Tracing;
-using ThreadsPoolTest.SetMinThreadsPool.Models;
+using ThreadsPoolTest.UseCases.Files.Dtos;
 
-namespace ThreadsPoolTest.SetMinThreadsPool.Services;
+namespace ThreadsPoolTest.UseCases.Files.Services;
 
 [TracingMethod]
 public class FileService : IFileService

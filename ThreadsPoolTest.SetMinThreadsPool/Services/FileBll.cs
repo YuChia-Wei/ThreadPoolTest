@@ -1,5 +1,7 @@
 using ThreadsPoolTest.CrossCutting.Observability.Tracing;
 using ThreadsPoolTest.SetMinThreadsPool.Models;
+using ThreadsPoolTest.UseCases.Files;
+using ThreadsPoolTest.UseCases.Files.Dtos;
 
 namespace ThreadsPoolTest.SetMinThreadsPool.Services;
 

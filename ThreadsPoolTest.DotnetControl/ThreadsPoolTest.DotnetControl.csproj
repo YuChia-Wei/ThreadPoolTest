@@ -13,13 +13,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ThreadsPoolTest.CrossCutting.Observability\ThreadsPoolTest.CrossCutting.Observability.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Shared-Kernels\ThreadsPoolTest.CrossCutting.Observability\ThreadsPoolTest.CrossCutting.Observability.csproj" />
+      <ProjectReference Include="..\ThreadsPoolTest.SetMinThreadsPool\ThreadsPoolTest.SetMinThreadsPool.csproj" />
     </ItemGroup>
 
 </Project>
