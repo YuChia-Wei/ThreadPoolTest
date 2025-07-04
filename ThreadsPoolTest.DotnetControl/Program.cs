@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using OpenTelemetry.Metrics;
+using ThreadsPoolTest.CrossCutting.Observability.Metrics;
 using ThreadsPoolTest.DotnetControl.Models;
-using ThreadsPoolTest.SetMinThreadsPool.Services;
+using ThreadsPoolTest.DotnetControl.Services;
 using ThreadsPoolTest.UseCases.Files;
-using FileBll = ThreadsPoolTest.DotnetControl.Services.FileBll;
-using FileService = ThreadsPoolTest.UseCases.Files.Services.FileService;
+using ThreadsPoolTest.UseCases.Files.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,25 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddOpenTelemetry()
+       .WithMetrics(meterProviderBuilder =>
+       {
+           meterProviderBuilder
+               .AddMeter(ApplicationMeter.Meter.Name)
+               .AddRuntimeInstrumentation()
+               // .AddHttpClientInstrumentation()
+               .AddAspNetCoreInstrumentation()
+               .AddOtlpExporter((exporterOptions, metricReaderOptions) =>
+               {
+                   var endpoint = Environment.GetEnvironmentVariable("OTEL_EXPORTER_OTLP_ENDPOINT");
+                   exporterOptions.Endpoint = !string.IsNullOrWhiteSpace(endpoint)
+                                                  ? new Uri(endpoint)
+                                                  : new Uri("http://localhost:4317");
+
+                   metricReaderOptions.PeriodicExportingMetricReaderOptions.ExportIntervalMilliseconds = 1000;
+               });
+       });
 
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<FileBll>();

@@ -8,7 +8,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["ThreadsPoolTest.DotnetControl/ThreadsPoolTest.DotnetControl.csproj", "ThreadsPoolTest.DotnetControl/"]
-COPY ["ThreadsPoolTest.CrossCutting.Observability/ThreadsPoolTest.CrossCutting.Observability.csproj", "ThreadsPoolTest.CrossCutting.Observability/"]
+COPY ["Shared-Kernels/ThreadsPoolTest.CrossCutting.Observability/ThreadsPoolTest.CrossCutting.Observability.csproj", "Shared-Kernels/ThreadsPoolTest.CrossCutting.Observability/"]
+COPY ["Applications/ThreadsPoolTest.UseCases/ThreadsPoolTest.UseCases.csproj", "Applications/ThreadsPoolTest.UseCases/"]
 RUN dotnet restore "ThreadsPoolTest.DotnetControl/ThreadsPoolTest.DotnetControl.csproj"
 COPY . .
 WORKDIR "/src/ThreadsPoolTest.DotnetControl"

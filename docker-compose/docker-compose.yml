@@ -1,0 +1,43 @@
+
+version: '3.8'
+
+services:
+  dotnet-app:
+    build:
+      context: ../
+      dockerfile: ThreadsPoolTest.DotnetControl/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+    depends_on:
+      - otel-collector
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.104.0
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - "4317:4317" # OTLP gRPC
+      - "8889:8889" # Prometheus exporter
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - otel-collector
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus

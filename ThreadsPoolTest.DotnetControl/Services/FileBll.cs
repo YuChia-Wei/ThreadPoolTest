@@ -12,20 +12,20 @@ public class FileBll
 
     public FileBll(IFileService fileService)
     {
-        _fileService = fileService;
+        this._fileService = fileService;
     }
 
     public async Task UploadSingleFile(UploadFileRequest request)
     {
-        var uploadFile = await GetFileInfo(request.File);
+        var uploadFile = await this.GetFileInfo(request.File);
         var uploadFileRequest = new UploadFileDto();
 
         uploadFileRequest.UploadFiles.Add(uploadFile);
 
-        await _fileService.UploadFiles(uploadFileRequest);
+        await this._fileService.UploadFiles(uploadFileRequest);
     }
 
-    private async static Task<byte[]> GetBytesFromFile(IFormFile file)
+    private static async Task<byte[]> GetBytesFromFile(IFormFile file)
     {
         await using var ms = new MemoryStream();
         await file.CopyToAsync(ms);
