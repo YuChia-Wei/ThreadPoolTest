@@ -26,8 +26,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose", "docker-compose", "{6A31E6B1-6DD5-425A-B989-68CC79AE880D}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose\docker-compose.yml = docker-compose\docker-compose.yml
-		docker-compose\otel-collector-config.yaml = docker-compose\otel-collector-config.yaml
-		docker-compose\prometheus.yml = docker-compose\prometheus.yml
 	EndProjectSection
 EndProject
 Global
