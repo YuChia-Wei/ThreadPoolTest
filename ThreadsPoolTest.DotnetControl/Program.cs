@@ -75,4 +75,13 @@ app.MapPost("/upload/streaming", async ([FromForm] UploadFileRequest request, [F
    .DisableAntiforgery()
    .WithOpenApi();
 
+app.MapPost("/upload/raw-streaming", async (HttpRequest request, [FromServices] FileBll fileBll) =>
+   {
+       var fileName = request.Headers["X-File-Name"].ToString();
+       await fileBll.UploadRawFileStreamAsync(request.Body, fileName);
+   })
+   .WithName("upload from raw streaming")
+   .DisableAntiforgery()
+   .WithOpenApi();
+
 app.Run();

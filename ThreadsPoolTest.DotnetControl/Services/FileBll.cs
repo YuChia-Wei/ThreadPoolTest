@@ -30,6 +30,16 @@ public class FileBll
         await this._fileService.UploadMultipleFileStreamsAsync(uploadFilesDto);
     }
 
+    public async Task UploadRawFileStreamAsync(Stream fileStream, string fileName)
+    {
+        var uploadStreamFile = new UploadStreamFile
+        {
+            FileStream = fileStream,
+            FileName = fileName
+        };
+        await this._fileService.UploadFileStreamAsync(uploadStreamFile);
+    }
+
     public async Task UploadSingleFileAsync(UploadFileRequest request)
     {
         var uploadFile = await this.GetFileInfoAsync(request.File);
