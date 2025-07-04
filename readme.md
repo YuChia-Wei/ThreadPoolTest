@@ -29,13 +29,13 @@
 
 ### A. 測試對照組 (DotnetControl)
 
-1.  **啟動 API**: 
+1.  **啟動 API**:
     ```shell
     cd ThreadsPoolTest.DotnetControl
     dotnet run
     ```
 2.  **取得 Process ID**: 開啟新的終端機，使用 `dotnet-counters ps` 找到 `ThreadsPoolTest.DotnetControl` 的程序 ID (PID)。
-3.  **啟動效能監控**: 
+3.  **啟動效能監控**:
     ```shell
     dotnet-counters monitor --process-id <PID> -o control-metrics.csv --counters System.Runtime,Microsoft.AspNetCore.Hosting
     ```
@@ -49,7 +49,7 @@
 
 ### B. 測試實驗組 (SetMinThreadsPool)
 
-1.  **啟動 API**: 
+1.  **啟動 API**:
     ```shell
     cd ThreadsPoolTest.SetMinThreadsPool
     dotnet run
@@ -172,6 +172,11 @@ docker run --rm --cap-add NET_ADMIN \
   --entrypoint /scripts/entrypoint.sh \
   grafana/k6
 
+```
+
+for windows
+```shell
+docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint.sh grafana/k6
 ```
 
 # Observability

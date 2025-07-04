@@ -30,7 +30,10 @@ export default function () {
 
   // memo: api 是使用 IDE 在本機執行
   // —— 調整你的 API URL ——
-  const url = 'http://host.docker.internal:5036/upload/fromform';
+  // 5036 = 專案直接執行
+  // 8080 = 專案用 docker 執行
+  // const url = 'http://host.docker.internal:5036/upload/fromform';
+  const url = 'http://host.docker.internal:8080/upload/fromform';
   //  ^^^^^^^^^^^^^^^^^^^^^^^
   //  · Windows/macOS Docker Desktop → host.docker.internal
   //  · Linux Docker → 可直接用 --network host ，改成 http://localhost:5000
