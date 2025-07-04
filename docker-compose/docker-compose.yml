@@ -14,7 +14,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
+          cpus: '4'
           memory: 4GB
     depends_on:
       - otel-collector-contrib
@@ -31,7 +31,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
+          cpus: '4'
           memory: 4GB
     depends_on:
       - otel-collector-contrib
