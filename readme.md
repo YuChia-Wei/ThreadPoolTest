@@ -211,6 +211,8 @@ docker run --rm \
     ```shell
     docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-preset-thread-pool.sh grafana/k6
     docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-runtime-set-thread-pool.sh grafana/k6
+    docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-preset-thread-pool-streaming.sh grafana/k6
+    docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-runtime-set-thread-pool-streaming.sh grafana/k6
     ```
 
 ### 含網路控制
