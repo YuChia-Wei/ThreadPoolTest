@@ -70,4 +70,12 @@ app.MapPost("/upload/fromform", async ([FromForm] UploadFileRequest request, [Fr
    .DisableAntiforgery()
    .WithOpenApi();
 
+app.MapPost("/upload/streaming", async ([FromForm] UploadFileRequest request, [FromServices] FileBll fileBll) =>
+   {
+       await fileBll.UploadSingleFileStreamAsync(request);
+   })
+   .WithName("upload from streaming")
+   .DisableAntiforgery()
+   .WithOpenApi();
+
 app.Run();

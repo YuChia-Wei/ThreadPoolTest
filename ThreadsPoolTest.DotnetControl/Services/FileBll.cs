@@ -15,6 +15,21 @@ public class FileBll
         this._fileService = fileService;
     }
 
+    public async Task UploadMultipleFilesStreamAsync(IEnumerable<IFormFile> files)
+    {
+        var uploadFilesDto = new UploadMultipleFilesDto();
+        foreach (var file in files)
+        {
+            uploadFilesDto.Files.Add(new UploadStreamFile
+            {
+                FileName = file.FileName,
+                FileStream = file.OpenReadStream()
+            });
+        }
+
+        await this._fileService.UploadMultipleFileStreamsAsync(uploadFilesDto);
+    }
+
     public async Task UploadSingleFileAsync(UploadFileRequest request)
     {
         var uploadFile = await this.GetFileInfoAsync(request.File);
@@ -23,6 +38,16 @@ public class FileBll
         uploadFileRequest.UploadFiles.Add(uploadFile);
 
         await this._fileService.UploadFilesAsync(uploadFileRequest);
+    }
+
+    public async Task UploadSingleFileStreamAsync(UploadFileRequest request)
+    {
+        var uploadStreamFile = new UploadStreamFile
+        {
+            FileStream = request.File.OpenReadStream(),
+            FileName = request.File.FileName
+        };
+        await this._fileService.UploadFileStreamAsync(uploadStreamFile);
     }
 
     private static async Task<byte[]> GetBytesFromFileAsync(IFormFile file)
