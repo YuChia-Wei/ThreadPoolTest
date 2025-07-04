@@ -28,15 +28,7 @@ export default function () {
     file: http.file(fileBin, 'sample.pdf'),  // 欄位名稱 file，與 API 參數一致
   };
 
-  // memo: api 是使用 IDE 在本機執行
-  // —— 調整你的 API URL ——
-  // 5036 = 專案直接執行
-  // 8080 = 專案用 docker 執行
-  // const url = 'http://host.docker.internal:5036/upload/fromform';
-  const url = 'http://host.docker.internal:8080/upload/fromform';
-  //  ^^^^^^^^^^^^^^^^^^^^^^^
-  //  · Windows/macOS Docker Desktop → host.docker.internal
-  //  · Linux Docker → 可直接用 --network host ，改成 http://localhost:5000
+  const url = __ENV.TESTING_API;
 
   const res = http.post(url, data);
 
