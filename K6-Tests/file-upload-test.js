@@ -28,7 +28,7 @@ export default function () {
     file: http.file(fileBin, 'sample.pdf'),  // 欄位名稱 file，與 API 參數一致
   };
 
-  const url = __ENV.TESTING_API;
+  const url = __ENV.TESTING_API || "http://host.docker.internal:5036/upload/fromform";
 
   const res = http.post(url, data);
 
