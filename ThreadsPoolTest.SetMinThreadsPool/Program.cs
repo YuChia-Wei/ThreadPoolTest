@@ -64,7 +64,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapPost("/upload/fromform", async ([FromForm] UploadFileRequest request, [FromServices] FileBll fileBll) =>
    {
-       await fileBll.UploadSingleFile(request);
+       await fileBll.UploadSingleFileAsync(request);
    })
    .WithName("upload from form")
    .DisableAntiforgery()

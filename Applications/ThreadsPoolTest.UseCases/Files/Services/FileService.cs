@@ -11,12 +11,12 @@ public class FileService : IFileService
 
     public FileService(ILogger<FileService> logger)
     {
-        _logger = logger;
+        this._logger = logger;
     }
 
-    public Task UploadFiles(UploadFileDto dto)
+    public Task UploadFilesAsync(UploadFileDto dto)
     {
-        _logger.LogInformation("upload file");
+        this._logger.LogInformation("upload file");
         return Task.CompletedTask;
     }
 }

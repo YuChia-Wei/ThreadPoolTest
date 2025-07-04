@@ -4,5 +4,5 @@ namespace ThreadsPoolTest.UseCases.Files;
 
 public interface IFileService
 {
-    Task UploadFiles(UploadFileDto dto);
+    Task UploadFilesAsync(UploadFileDto dto);
 }

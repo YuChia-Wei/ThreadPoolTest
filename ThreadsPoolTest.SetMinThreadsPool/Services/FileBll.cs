@@ -12,35 +12,33 @@ public class FileBll
 
     public FileBll(IFileService fileService)
     {
-        _fileService = fileService;
+        this._fileService = fileService;
     }
 
-    public async Task UploadSingleFile(UploadFileRequest request)
+    public async Task UploadSingleFileAsync(UploadFileRequest request)
     {
-        var uploadFile = await GetFileInfo(request.File);
+        var uploadFile = await GetFileInfoAsync(request.File);
         var uploadFileRequest = new UploadFileDto();
 
         uploadFileRequest.UploadFiles.Add(uploadFile);
 
-        await _fileService.UploadFiles(uploadFileRequest);
+        await this._fileService.UploadFilesAsync(uploadFileRequest);
     }
 
-    private async static Task<byte[]> GetBytesFromFile(IFormFile file)
+    private static async Task<byte[]> GetBytesFromFileAsync(IFormFile file)
     {
         await using var ms = new MemoryStream();
         await file.CopyToAsync(ms);
         return ms.ToArray();
     }
 
-    private async Task<UploadFile> GetFileInfo(IFormFile file)
+    private static async Task<UploadFile> GetFileInfoAsync(IFormFile file)
     {
-        var f = new UploadFile
+        return new UploadFile
         {
             FileExtensions = Path.GetExtension(file.FileName).TrimStart('.').ToLower(),
             FileName = Path.GetFileNameWithoutExtension(file.FileName).ToLower(),
-            FileContent = await GetBytesFromFile(file)
+            FileContent = await GetBytesFromFileAsync(file)
         };
-
-        return f;
     }
 }
