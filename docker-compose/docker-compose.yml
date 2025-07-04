@@ -2,12 +2,28 @@
 version: '3.8'
 
 services:
-  dotnet-app:
+  dotnet-runtime-control-thread-app:
     build:
       context: ../
       dockerfile: ThreadsPoolTest.DotnetControl/Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector-contrib:4317
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4GB
+    depends_on:
+      - otel-collector-contrib
+
+  dotnet-preset-thread-app:
+    build:
+      context: ../
+      dockerfile: ThreadsPoolTest.SetMinThreadsPool/Dockerfile
+    ports:
+      - "8081:8080"
     environment:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector-contrib:4317
     deploy:
