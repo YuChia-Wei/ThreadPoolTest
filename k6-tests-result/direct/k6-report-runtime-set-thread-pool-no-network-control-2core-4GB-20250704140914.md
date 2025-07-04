@@ -5,7 +5,7 @@
 *   **測試工具**: k6
 *   **測試目標 API**: `ThreadsPoolTest.DotnetControl` (使用 .NET Runtime 自行控制 Thread Pool 的版本)
 *   **API 執行資源**: 2 核心 CPU & 4GB 記憶體
-*   **測試時間**: 2025年7月4日 06:09:14
+*   **測試時間**: 2025年7月4日 06:09:14 (UTC)
 *   **網路控制**: 無
 
 ## 測試結果摘要
