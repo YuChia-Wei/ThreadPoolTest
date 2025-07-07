@@ -1,0 +1,40 @@
+﻿  █ THRESHOLDS
+
+    http_req_duration
+    ✗ 'p(95)<3000' p(95)=1m8s
+
+    http_req_failed
+    ✗ 'rate<0.01' rate=63.76%
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......................: 1170   3.190691/s
+    checks_succeeded...................: 36.23% 424 out of 1170
+    checks_failed......................: 63.76% 746 out of 1170
+
+    ✗ status was 200
+      ↳  36% — ✓ 424 / ✗ 746
+
+    HTTP
+    http_req_duration.......................................................: avg=58.13s min=8.39s med=1m6s   max=1m9s p(90)=1m6s p(95)=1m8s
+      { expected_response:true }............................................: avg=43.22s min=8.39s med=43.96s max=1m8s p(90)=1m2s p(95)=1m4s
+    http_req_failed.........................................................: 63.76% 746 out of 1170
+    http_reqs...............................................................: 1170   3.190691/s
+
+    EXECUTION
+    iteration_duration......................................................: avg=52.68s min=8.39s med=1m0s   max=1m3s p(90)=1m0s p(95)=1m2s
+    iterations..............................................................: 1170   3.190691/s
+    vus.....................................................................: 44     min=44          max=200
+    vus_max.................................................................: 200    min=200         max=200
+
+    NETWORK
+    data_received...........................................................: 39 kB  106 B/s
+    data_sent...............................................................: 168 kB 457 B/s
+
+
+
+
+running (6m06.7s), 000/200 VUs, 1170 complete and 44 interrupted iterations
+default ✓ [ 100% ] 200 VUs  5m0s
+time="2025-07-07T03:40:55Z" level=error msg="thresholds on metrics 'http_req_duration, http_req_failed' have been crossed"

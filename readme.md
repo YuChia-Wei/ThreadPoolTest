@@ -215,6 +215,8 @@ docker run --rm \
     docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-runtime-set-thread-pool-streaming.sh grafana/k6
     docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-preset-thread-pool-raw-streaming.sh grafana/k6
     docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-runtime-set-thread-pool-raw-streaming.sh grafana/k6
+    docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-preset-thread-pool-cpu-test.sh grafana/k6
+    docker run --rm --cap-add NET_ADMIN -v .\:/scripts -w /scripts --entrypoint /scripts/entrypoint-runtime-set-thread-pool-cpu-test.sh grafana/k6
     ```
 
 ### 含網路控制
@@ -260,5 +262,5 @@ docker run --rm \
 
 # 參考資料
 
-https://ithelp.ithome.com.tw/m/articles/10196584
-https://learn.microsoft.com/zh-tw/aspnet/core/mvc/models/file-uploads?view=aspnetcore-9.0
+- https://ithelp.ithome.com.tw/m/articles/10196584
+- https://learn.microsoft.com/zh-tw/aspnet/core/mvc/models/file-uploads?view=aspnetcore-9.0
