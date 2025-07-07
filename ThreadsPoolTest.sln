@@ -7,6 +7,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K6-Tests", "K6-Tests", "{80482509-BD98-4118-A552-4EF4E6DDB394}"
 	ProjectSection(SolutionItems) = preProject
 		K6-Tests\file-upload-test.js = K6-Tests\file-upload-test.js
+		K6-Tests\cpu-intensive-work-test.js = K6-Tests\cpu-intensive-work-test.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared-Kernels", "Shared-Kernels", "{2CB08CDE-F52A-4320-AF48-DE5335C7F179}"

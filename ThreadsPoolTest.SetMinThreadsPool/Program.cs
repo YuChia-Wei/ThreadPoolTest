@@ -5,6 +5,7 @@ using OpenTelemetry.Trace;
 using ThreadsPoolTest.CrossCutting.Observability.Metrics;
 using ThreadsPoolTest.SetMinThreadsPool.Models;
 using ThreadsPoolTest.SetMinThreadsPool.Services;
+using ThreadsPoolTest.UseCases.CpuIntensive.Services;
 using ThreadsPoolTest.UseCases.Files;
 using ThreadsPoolTest.UseCases.Files.Services;
 
@@ -52,6 +53,7 @@ builder.Services.AddOpenTelemetry()
 
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<FileBll>();
+builder.Services.AddScoped<ICpuIntensiveService, CpuIntensiveService>();
 
 var app = builder.Build();
 
@@ -85,6 +87,14 @@ app.MapPost("/upload/raw-streaming", async (HttpRequest request, [FromServices] 
    })
    .WithName("upload from raw streaming")
    .DisableAntiforgery()
+   .WithOpenApi();
+
+app.MapPost("/api/cpu-intensive-work", ([FromQuery] int iterations, [FromServices] ICpuIntensiveService cpuIntensiveService) =>
+   {
+       cpuIntensiveService.DoWork(iterations);
+       return Results.Ok();
+   })
+   .WithName("CPU Intensive Work")
    .WithOpenApi();
 
 app.Run();
